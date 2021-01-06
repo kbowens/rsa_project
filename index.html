@@ -16,6 +16,19 @@
   <p>
   	This visual essay attempts to combine textual explanations with interactive visualizations in the hopes that such a combination might prove useful to any student trying to gain an understanding not just of what computations are required to implement RSA encryption, but of the reasoning behind those calculations.
   </p>
+  <p>
+  	The first part of the public key is a number we will call 'n'. Select two numbers, which we'll call p and q. These numbers must be prime. We will multiply them together, and that will give us n.
+  	A note: usually, p,q and any other numbers discussed here would be much bigger. For the purposes of a simpler explanation, smaller numbers are probably better.
+  </p>
+  <p>
+  	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some king of explanation.] It is usually quite large, but in some cases can be as low as 3.
+  </p>
+  <p>
+  	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
+  </p>
+  <p>
+  	The sender must convert a message into a number. Try a simple message here, [convert to unicode or something]
+  </p>
   <script src="js/scripts.js"></script>
 </body>
 </html>
