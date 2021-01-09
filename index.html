@@ -8,27 +8,40 @@
 </head>
 
 <body>
-  <h1>A Visual Explanation for RSA Encryption</h1>
-  <em>by Kevin Bradyn Owens</em>
-  <p>
-  	In any study of cryptography, it is not long before a student encounters the RSA algorithm. RSA is one of the algorithms that make of a unique class of cryptography called Asymmetric encryption. When I was learning RSA, I found that although there are many explanations of the algorithm that provide excellent detail about the steps required, I had a hard time gaining an intuitive understanding of the mathematical forces at work. I could read the steps of the algorithm, but I had trouble understanding key concepts, such as how the public and private key were different, and what part each numerical figure played in the secret transfer of data.
-  </p>
-  <p>
-  	This visual essay attempts to combine textual explanations with interactive visualizations in the hopes that such a combination might prove useful to any student trying to gain an understanding not just of what computations are required to implement RSA encryption, but of the reasoning behind those calculations.
-  </p>
-  <p>
-  	The first part of the public key is a number we will call 'n'. Select two numbers, which we'll call p and q. These numbers must be prime. We will multiply them together, and that will give us n.
-  	A note: usually, p,q and any other numbers discussed here would be much bigger. For the purposes of a simpler explanation, smaller numbers are probably better.
-  </p>
-  <p>
-  	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some king of explanation.] It is usually quite large, but in some cases can be as low as 3.
-  </p>
-  <p>
-  	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
-  </p>
-  <p>
-  	The sender must convert a message into a number. Try a simple message here, [convert to unicode or something]
-  </p>
-  <script src="js/scripts.js"></script>
+    <div class="content">
+    <h1>A Visual Explanation for RSA Encryption</h1>
+    <em>by Kevin Bradyn Owens</em>
+    <p>
+    	In any study of cryptography, it is not long before a student encounters the RSA algorithm. RSA is one of the algorithms that make of a unique class of cryptography called Asymmetric encryption. When I was learning RSA, I found that although there are many explanations of the algorithm that provide excellent detail about the steps required, I had a hard time gaining an intuitive understanding of the mathematical forces at work. I could read the steps of the algorithm, but I had trouble understanding key concepts, such as how the public and private key were different, and what part each numerical figure played in the secret transfer of data.
+    </p>
+    <p>
+    	This visual essay attempts to combine textual explanations with interactive visualizations in the hopes that such a combination might prove useful to any student trying to gain an understanding not just of what computations are required to implement RSA encryption, but of the reasoning behind those calculations.
+    </p>
+    <p>
+    	The first part of the public key is a number we will call 'n'. Select two numbers, which we'll call p and q. These numbers must be prime. We will multiply them together, and that will give us n.
+    	A note: usually, p,q and any other numbers discussed here would be much bigger. For the purposes of a simpler explanation, smaller numbers are probably better.
+    </p>
+    [explain modulo with clock example somewhere here.]
+    <p>
+    	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some king of explanation.] It is usually quite large, but in some cases can be as low as 3.
+    </p>
+    <p>
+    	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
+    </p>
+    <p>
+    	The sender must convert a message into a number. Try a simple message here, [convert to unicode or something]. We will call this number 'm'.
+    </p>
+    <p>
+      Here's where the public key comes in: the cyphertext (encrypted message) is the result of m^e (mod n). In other words, m to the power of e, reduced modulo n. This number, 'c', is what we then send to the receiver.
+    </p>
+    <p>
+      The receiver receives c. There may have been many eavesdroppers who also received c. Luckily, even though they also may have e and n, this is not enough to break the encryption. [expand and move this to the end]
+    </p>
+    <p>
+      Now that the receiver has c, the encrypted message, they can decrypt. For this step, the receiver must generate the private key, which we will call 'd'. d has a special relationship to e: it is the modular inverse of e (mod phi n). The nature of this relationship is a bit out of scope for this explanation, but the important thing to know is that in order to get this number, you will need to know phi(n) [Aside: phi(n), or Euler's totient function, is the number of integers between 1 and n whose only common denominator is 1.] Phi(n) is hard to calculate - one basically has to test every number <em>unless</em> one knows p and q, the two numbers used to generate n. Since the receiver <em>does</em> know p and q, all they have to do is (p-1)(q-1). Once d is found, one last calculation is needed: c^m mod n. By the magic of d's special relationship to e, this calculation yields the decrypted message unaltered. 
+    </p>
+    [Here is where that last animation goes].
+    <script src="js/scripts.js"></script>
+  </div>
 </body>
 </html>
