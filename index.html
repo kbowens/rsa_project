@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>RSA Encryption</title>
   <link rel="stylesheet" href="/styles.css">
+  <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 
 <body>
@@ -13,15 +14,58 @@
     <h1>A Visual Explanation for RSA Encryption</h1>
     <em>by Kevin Bradyn Owens</em>
     <p>
-    	In any study of cryptography, it is not long before a student encounters the RSA algorithm. RSA is one of the algorithms that make of a unique class of cryptography called Asymmetric encryption. When I was learning RSA, I found that although there are many explanations of the algorithm that provide excellent detail about the steps required, I had a hard time gaining an intuitive understanding of the mathematical forces at work. I could read the steps of the algorithm, but I had trouble understanding key concepts, such as how the public and private key were different, and what part each numerical figure played in the secret transfer of data.
+    	RSA is one of the algorithms that make of a unique class of cryptography called asymmetric encryption. When I was learning RSA, I found that although there are many explanations of the algorithm that provide excellent detail about the steps required, it can be hard to gain an intuitive understanding of the mathematical forces at work. I could read the steps of the algorithm, but I had trouble understanding key concepts, such as how the public and private key were different, and what part each numerical figure played in the secret transfer of data.
     </p>
     <p>
-    	This visual essay attempts to combine textual explanations with interactive visualizations in the hopes that such a combination might prove useful to any student trying to gain an understanding not just of what computations are required to implement RSA encryption, but of the reasoning behind those calculations.
+    	This visual essay attempts to combine textual explanations with interactive visualizations in the hopes that such a combination might prove useful to any student trying to gain an understanding not just of what computations are required to implement RSA encryption, but also a little bit of the reasoning behind those calculations.
     </p>
     <p>
-    	The first part of the public key is a number we will call 'n'. Select two numbers, which we'll call p and q. These numbers must be prime. We will multiply them together, and that will give us n.
+      The first step in RSA is for the person who plans to receive sensitive communications, or the "receiver" to generate a public key. Let's do that now.
+    </p>
+    <p>
+    	To create a public key, we will need a number called 'n'. Select two numbers, which we'll call p and q. These numbers must be prime. We will multiply them together, and that will give us n.
     	A note: usually, p,q and any other numbers discussed here would be much bigger. For the purposes of a simpler explanation, smaller numbers are probably better.
     </p>
+    <div id="inputs">
+      <div>
+        <label for="p">p:</label>
+        <input type="number" name="p">
+      </div>
+      <div>
+        <label for="q">q:</label>
+        <input type="number" name="q">
+      </div>
+    </div>
+    <div id="pubkeywheel"></div>
+    <script>
+
+      width = 125
+      height = 125
+      radius = width / 1.67
+      console.log(radius)
+      fields = [
+      {radius: radius, interval: d3.timeYear, subinterval: d3.timeMonth, format: d3.timeFormat("%b")}
+      ]
+      const svg = d3.select("#pubkeywheel").append("svg")
+        .attr("viewBox", [0, 0, width/2, height/2])
+        .attr("text-anchor", "middle")
+        .style("display", "block")
+        .style("font", "500 14px var(--sans-serif)");
+
+      const field = svg.append("g")
+        .attr("transform", `translate(${width / 4},${height / 4})`)
+        .selectAll("g")
+        .data(fields)
+        .join("g");
+        
+      field.append("circle")
+        .attr("fill", "none")
+        .attr("stroke", "currentColor")
+        .attr("stroke-width", 1)
+        .attr("r", 10);
+
+
+    </script>
     [explain modulo with clock example somewhere here.]
     <p>
     	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some king of explanation.] It is usually quite large, but in some cases can be as low as 3.
@@ -42,7 +86,6 @@
       Now that the receiver has c, the encrypted message, they can decrypt. For this step, the receiver must generate the private key, which we will call 'd'. d has a special relationship to e: it is the modular inverse of e (mod phi n). The nature of this relationship is a bit out of scope for this explanation, but the important thing to know is that in order to get this number, you will need to know phi(n) [Aside: phi(n), or Euler's totient function, is the number of integers between 1 and n whose only common denominator is 1.] Phi(n) is hard to calculate - one basically has to test every number <em>unless</em> one knows p and q, the two numbers used to generate n. Since the receiver <em>does</em> know p and q, all they have to do is (p-1)(q-1). Once d is found, one last calculation is needed: c^m mod n. By the magic of d's special relationship to e, this calculation yields the decrypted message unaltered. 
     </p>
     [Here is where that last animation goes].
-    <script src="js/scripts.js"></script>
   </div>
   <div></div>
 </body>

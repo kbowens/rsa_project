@@ -1,10 +1,16 @@
 body {
 	display: grid;
-	grid-template-columns: 100px, 500px;
+	grid-template-columns: 1fr 900px 1fr;
 }
 
 .content {
 	display: grid;
 	grid-column-start: 2;
 	grid-column-end: 3;
+}
+
+#inputs {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 }
