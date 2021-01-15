@@ -39,21 +39,21 @@
     <div id="pubkeywheel"></div>
     <script>
 
-      width = 125
-      height = 125
+      width = 50
+      height = 100
       radius = width / 1.67
       console.log(radius)
       fields = [
       {radius: radius, interval: d3.timeYear, subinterval: d3.timeMonth, format: d3.timeFormat("%b")}
       ]
       const svg = d3.select("#pubkeywheel").append("svg")
-        .attr("viewBox", [0, 0, width/2, height/2])
+        .attr("viewBox", [0, 0, 100, 100])
         .attr("text-anchor", "middle")
-        .style("display", "block")
-        .style("font", "500 14px var(--sans-serif)");
+        //.style("display", "block")
+        //.style("font", "500 14px var(--sans-serif)");
 
       const field = svg.append("g")
-        .attr("transform", `translate(${width / 4},${height / 4})`)
+        .attr("transform", `translate(${width},${height/4})`)
         .selectAll("g")
         .data(fields)
         .join("g");
@@ -61,8 +61,8 @@
       field.append("circle")
         .attr("fill", "none")
         .attr("stroke", "currentColor")
-        .attr("stroke-width", 1)
-        .attr("r", 10);
+        .attr("stroke-width", .5)
+        .attr("r", 18);
 
 
     </script>
