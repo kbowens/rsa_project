@@ -6,6 +6,7 @@
   <title>RSA Encryption</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="/index.js"></script>
 </head>
 
 <body>
@@ -39,83 +40,7 @@
     <div id="pubkeywheel"></div>
     <script>
 
-      width = 50
-      height = 100
-      radius = width / 1.67
-      console.log(radius)
-      
-      fields = [
-      {radius: radius, interval: d3.timeYear, subinterval: d3.timeMonth, format: d3.timeFormat("%b")}
-      ]
-     fullInterval = function() { return [0,1,2,3]}
-     subInterval = function() { return [0,1,2,3]}
-     /*
-      fields = [
-      {radius: radius, interval: fullInterval, subinterval: subInterval, format: d3.timeFormat("%b")}
-      ]
-      */
-      const svg = d3.select("#pubkeywheel").append("svg")
-        .attr("viewBox", [0, 0, 100, 100])
-        .attr("text-anchor", "middle")
-        //.style("display", "block")
-        //.style("font", "500 14px var(--sans-serif)");
-
-      const field = svg.append("g")
-        .attr("transform", `translate(${width},${height/4})`)
-        .selectAll("g")
-        .data(fields)
-        .join("g");
-        
-      field.append("circle")
-        .attr("fill", "none")
-        .attr("stroke", "currentColor")
-        .attr("stroke-width", .5)
-        .attr("r", 18);
-
-        //What you need: the highest number,
-        // the intervals between, and then a list of each interval
-        //up to the highest, which is returned in that first call to data.
-
-      const fieldTick = field.selectAll("g")
-        .data(d => {
-          const date = d.interval(new Date(2000,0,1));
-          d.range = d.subinterval.range(date, d.interval.offset(date, 1));
-          console.log(d.range)
-          console.log(d.range.map(t => ({time:t, field: d})))
-          return d.range.map(t => ({time:t, field: d}));
-
-        })
-        .join("g")
-          .attr("class", "field-tick")
-          .attr("transform", (d, i) => {
-            const angle = i / d.field.range.length * 2 * Math.PI - Math.PI / 2;
-            console.log(i)
-            console.log(d.field.range.length)
-            return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20})`;
-          }); 
-
-
-
-/*
-      const fieldTick = field.selectAll("g")
-        .data(d => {
-          const date = d.interval(new Date(2000,0,1));
-          d.range = d.subinterval.range(date, d.interval.offset(date, 1));
-          return d.range.map(t => ({time:t, field: d}));
-        })
-        .join("g")
-          .attr("class", "field-tick")
-          .attr("transform", (d, i) => {
-            const angle = i / d.field.range.length * 2 * Math.PI - Math.PI / 2;
-            return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20})`;
-          }); 
-*/
-      fieldTick.append("text")
-        .attr("dy", "0.35em")
-        .attr("fill", "#222")
-        .attr("font-size", "2")
-        //.text(d => d.field.format(d.time).slice(0, 2));
-        .text("hi")
+    drawCircle()
 
 
     </script>
