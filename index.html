@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/styles.css">
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script src="/index.js"></script>
+  <script src="https://unpkg.com/mathjs@9.0.0/lib/browser/math.js"></script>
 </head>
 
 <body>
@@ -30,17 +31,19 @@
     <div id="inputs">
       <div>
         <label for="p">p:</label>
-        <input type="number" name="p">
+        <input type="number" name="p" id="pinput" oninput="validatePandQ()">
       </div>
       <div>
         <label for="q">q:</label>
-        <input type="number" name="q">
+        <input type="number" name="q" id="qinput" oninput="validatePandQ()">
+      </div>
+      <div>
+        <label>Result:</label>
+        <label id="nresult">P and Q both have to be prime!</label>
       </div>
     </div>
     <div id="pubkeywheel"></div>
     <script>
-
-    drawCircle()
 
 
     </script>
@@ -48,22 +51,26 @@
     <p>
     	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some kind of explanation.] It is usually quite large, but in some cases can be as low as 3.
     </p>
+    ![e chooser and script to make sure it is valid]
     <p>
     	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
     </p>
     <p>
     	The sender must convert a message into a number. Try a simple message here, [convert to unicode or something]. We will call this number 'm'.
     </p>
+    ![type box for message, script to convert to number]
+    ![show where this message falls on the mod-wheel]
     <p>
       Here's where the public key comes in: the cyphertext (encrypted message) is the result of m^e (mod n). In other words, m to the power of e, reduced modulo n. This number, 'c', is what we then send to the receiver.
     </p>
+    ![show cyphertext on the circle and maybe an animation from where it started]
     <p>
       The receiver receives c. There may have been many eavesdroppers who also received c. Luckily, even though they also may have e and n, this is not enough to break the encryption. [expand and move this to the end]
     </p>
     <p>
       Now that the receiver has c, the encrypted message, they can decrypt. For this step, the receiver must generate the private key, which we will call 'd'. d has a special relationship to e: it is the modular inverse of e (mod phi n). The nature of this relationship is a bit out of scope for this explanation, but the important thing to know is that in order to get this number, you will need to know phi(n) [Aside: phi(n), or Euler's totient function, is the number of integers between 1 and n whose only common denominator is 1.] Phi(n) is hard to calculate - one basically has to test every number <em>unless</em> one knows p and q, the two numbers used to generate n. Since the receiver <em>does</em> know p and q, all they have to do is (p-1)(q-1). Once d is found, one last calculation is needed: c^m mod n. By the magic of d's special relationship to e, this calculation yields the decrypted message unaltered. 
     </p>
-    [Here is where that last animation goes].
+    ![show the (maybe animated) message moving around the circle, back to the place of the original message].
   </div>
   <div></div>
 </body>
