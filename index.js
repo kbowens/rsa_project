@@ -2,7 +2,12 @@ function drawCircle() {
 	width = 50
 	height = 100
 	radius = width / 1.67
-	fields = [{maxValue: 12, interval: 2}]
+	p = document.getElementById("pinput").value
+	q = document.getElementById("qinput").value
+	n = p * q
+	fields = [{maxValue: n, interval: n/12>>0}]
+
+	d3.selectAll("#pubkeywheel > *").remove()
 
 	const svg = d3.select("#pubkeywheel").append("svg")
 	.attr("viewBox", [0, 0, 100, 100])
@@ -31,6 +36,10 @@ function drawCircle() {
 	    list.push({number: i, max: d.maxValue})
 
 	  }
+	  if (!list.includes(n)) {
+	  	list.push({number: n, max: d.maxValue})
+	  	console.log(n)
+	  }
 	  return list
 	})
 	.join("g")
@@ -49,7 +58,7 @@ function drawCircle() {
 
 function drawError() {
 
-	const svg = d3.select("#pubkeywheel").append("svg")
+	const svg = d3.select("#pubkeywheel").remove().append("svg")
 	.attr("viewBox", [0, 0, 100, 100])
 	.attr("text-anchor", "middle")
 
@@ -70,5 +79,7 @@ function validatePandQ() {
 
 	if (math.isPrime(p) && math.isPrime(q)) {
 		drawCircle()
-	} else {drawError()}
+		console.log("Primes")
+
+	} //else {drawError()}
 }
