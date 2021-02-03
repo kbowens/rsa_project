@@ -79,7 +79,36 @@ function validatePandQ() {
 
 	if (math.isPrime(p) && math.isPrime(q)) {
 		drawCircle()
+		drawSelect()
 		console.log("Primes")
 
 	} //else {drawError()}
+}
+
+function drawSelect() {
+	var p = document.getElementById("pinput").value
+	var q = document.getElementById("qinput").value
+	var n = p * q
+
+	var phipq = (p-1)*(q-1)
+	console.log(phipq)
+	var relPrimeOptions = []
+
+	for(var i = 2; i < 100; i++) {
+		if (math.gcd(i, phipq) == 1) {
+			relPrimeOptions.push(i)
+		}
+	}
+	console.log(relPrimeOptions)
+
+	var sel = d3.select("#selectarea").append("select")
+		.attr("name", "e options")
+		.attr("id", "select")
+
+	sel.selectAll("option")
+		.data(relPrimeOptions)
+		.join("option")
+			.attr("value", d => d)
+			.text(d => d)
+
 }
