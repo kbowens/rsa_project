@@ -31,11 +31,11 @@
     <div id="inputs">
       <div>
         <label for="p">p:</label>
-        <input type="number" name="p" id="pinput" oninput="validatePandQ()">
+        <input type="number" name="p" id="pinput" oninput="update()">
       </div>
       <div>
         <label for="q">q:</label>
-        <input type="number" name="q" id="qinput" oninput="validatePandQ()">
+        <input type="number" name="q" id="qinput" oninput="update()">
       </div>
       <div>
         <label>Result:</label>
@@ -51,7 +51,6 @@
     <p>
     	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some kind of explanation.] It is usually quite large, but in some cases can be as low as 3.
     </p>
-    ![e chooser and script to make sure it is valid]
     <div id='selectarea'></div>
     <p>
     	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
@@ -59,12 +58,10 @@
     <p>
     	The sender must convert a message into a number. Try a simple message here, [convert to unicode or something]. We will call this number 'm'.
     </p>
-    ![type box for message, script to convert to number]
     <div id='messageboxdiv'>
-      <input id="messagebox" onchange='msgToNumber()'/>
+      <input id="messagebox" onchange='update()'/>
       <text id='messagenumber'></text>
     </div>
-    ![show where this message falls on the mod-wheel]
     <div id="pubkeywheel2"></div>
     <p>
       Here's where the public key comes in: the cyphertext (encrypted message) is the result of m^e (mod n). In other words, m to the power of e, reduced modulo n. This number, 'c', is what we then send to the receiver.

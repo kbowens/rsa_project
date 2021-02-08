@@ -1,3 +1,11 @@
+function update() {
+	validatePandQ()
+	if (!isNaN(document.getElementById("messagenumber").innerHTML)) {
+		msgToNumber()
+	}
+}
+
+
 function drawCircle() {
 	width = 50
 	height = 100
@@ -101,6 +109,8 @@ function drawSelect() {
 	}
 	console.log(relPrimeOptions)
 
+	d3.selectAll("#selectarea > *").remove()
+
 	var sel = d3.select("#selectarea").append("select")
 		.attr("name", "e options")
 		.attr("id", "select")
@@ -140,6 +150,7 @@ function drawCircleWithMessage() {
 	q = document.getElementById("qinput").value
 	n = p * q
 	fields = [{maxValue: n, interval: n/12>>0}]
+	m = document.getElementById("messagenumber").innerHTML
 
 	d3.selectAll("#pubkeywheel2 > *").remove()
 
@@ -149,6 +160,7 @@ function drawCircleWithMessage() {
 
 	const field = svg.append("g")
 	.attr("transform", `translate(${width},${height/4})`)
+	.attr("class", "field")
 	.selectAll("g")
 	.data(fields)
 	.join("g");
@@ -188,4 +200,27 @@ function drawCircleWithMessage() {
 	.attr("fill", "#222")
 	.attr("font-size", "2")
 	.text(d => d.number);
+
+	var mcircle = field.append("g")
+		.attr("transform", _ => {
+			const angle = m / n * 2 * Math.PI - Math.PI / 2;
+			return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20})` 
+		})
+
+	mcircle.append("circle")
+		.attr("fill", "cyan")
+		.attr("class", "small-circle")
+		.attr("r", "2")
+		.attr("stroke", "currentColor")
+		.attr("stroke-width", .5)
+	
+	field.append("text")
+		.attr("transform", _ => {
+			const angle = m / n * 2 * Math.PI - Math.PI / 2;
+			return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20 + .5})` 
+		})
+		.text("m")
+		.attr("font-size", "2")
+
+
 }
