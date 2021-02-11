@@ -43,10 +43,7 @@
       </div>
     </div>
     <div id="pubkeywheel"></div>
-    <script>
 
-
-    </script>
     [explain modulo with clock example somewhere here.]
     <p>
     	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some kind of explanation.] It is usually quite large, but in some cases can be as low as 3.
@@ -67,6 +64,14 @@
       Here's where the public key comes in: the cyphertext (encrypted message) is the result of m^e (mod n). In other words, m to the power of e, reduced modulo n. This number, 'c', is what we then send to the receiver.
     </p>
     ![show cyphertext on the circle and maybe an animation from where it started]
+    <div id="mathsection">
+      <p id="m_is"></p>
+      <p id="e_is"></p>
+      <p id="n_is"></p>
+      <br/>
+      <p id="equation"></p>
+    </div>
+    <div id="pubkeywheel3"></div>
     <p>
       The receiver receives c. There may have been many eavesdroppers who also received c. Luckily, even though they also may have e and n, this is not enough to break the encryption. [expand and move this to the end]
     </p>
@@ -76,5 +81,9 @@
     ![show the (maybe animated) message moving around the circle, back to the place of the original message].
   </div>
   <div></div>
+  <script>
+    update()
+
+  </script>
 </body>
 </html>

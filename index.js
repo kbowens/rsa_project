@@ -2,6 +2,7 @@ function update() {
 	validatePandQ()
 	if (!isNaN(document.getElementById("messagenumber").innerHTML)) {
 		msgToNumber()
+		postMessageDoMath()
 	}
 }
 
@@ -221,6 +222,27 @@ function drawCircleWithMessage() {
 		})
 		.text("m")
 		.attr("font-size", "2")
+}
 
+function postMessageDoMath() {
+	p = document.getElementById("pinput").value
+	q = document.getElementById("qinput").value
+	n = p * q
+	m = document.getElementById("messagenumber").innerHTML
+	select = document.getElementById("select")
+	if (select == null) {
+		return
+	}
+	e = select.options[select.selectedIndex].value
 
+	c = Math.pow(m, e) % n
+
+	if (isNaN(n) || isNaN(m) || isNaN(e)) {
+		console.log("nan error")
+		return
+	}
+	document.getElementById("n_is").innerHTML = `n = ${n}`
+	document.getElementById("m_is").innerHTML = `m = ${m}`
+	document.getElementById("e_is").innerHTML = `e = ${e}`
+	document.getElementById("equation").innerHTML = `(${m}^${e}) mod ${n} = ${c}`
 }
