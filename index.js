@@ -329,3 +329,9 @@ function drawCircleWithCyphertext() {
 		.text("c")
 		.attr("font-size", "2")
 }
+
+function modinv(a, m) {
+	var v = 1
+	var d = a
+	var u = (a == 1)
+}
