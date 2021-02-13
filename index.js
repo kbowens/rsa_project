@@ -3,6 +3,7 @@ function update() {
 	if (!isNaN(document.getElementById("messagenumber").innerHTML)) {
 		msgToNumber()
 		postMessageDoMath()
+		drawCircleWithCyphertext()
 	}
 }
 
@@ -245,4 +246,86 @@ function postMessageDoMath() {
 	document.getElementById("m_is").innerHTML = `m = ${m}`
 	document.getElementById("e_is").innerHTML = `e = ${e}`
 	document.getElementById("equation").innerHTML = `(${m}^${e}) mod ${n} = ${c}`
+}
+
+function drawCircleWithCyphertext() {
+	width = 50
+	height = 100
+	radius = width / 1.67
+	p = document.getElementById("pinput").value
+	q = document.getElementById("qinput").value
+	n = p * q
+	fields = [{maxValue: n, interval: n/12>>0}]
+	m = document.getElementById("messagenumber").innerHTML
+	c = Math.pow(m, e) % n
+
+	d3.selectAll("#pubkeywheel3 > *").remove()
+
+	const svg = d3.select("#pubkeywheel3").append("svg")
+	.attr("viewBox", [0, 0, 100, 100])
+	.attr("text-anchor", "middle")
+
+	const field = svg.append("g")
+	.attr("transform", `translate(${width},${height/4})`)
+	.attr("class", "field")
+	.selectAll("g")
+	.data(fields)
+	.join("g");
+
+	field.append("circle")
+	.attr("fill", "none")
+	.attr("stroke", "currentColor")
+	.attr("stroke-width", .5)
+	.attr("r", 18);
+
+	//What you need: the highest number,
+	// the intervals between, and then a list of each interval
+	//up to the highest, which is returned in that first call to data.
+
+	const fieldTick = field.selectAll("g")
+	.data(d => {
+	  var list = []
+	  for (var i = d.interval; i <= d.maxValue; i+=d.interval) {
+	    list.push({number: i, max: d.maxValue})
+
+	  }
+	  if (!list.includes(n)) {
+	  	list.push({number: n, max: d.maxValue})
+	  	console.log(n)
+	  }
+	  return list
+	})
+	.join("g")
+	  .attr("class", "field-tick")
+	  .attr("transform", (d, i) => {
+	    const angle = d.number / d.max * 2 * Math.PI - Math.PI / 2;
+	    return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20})`;
+	  }); 
+
+	fieldTick.append("text")
+	.attr("dy", "0.35em")
+	.attr("fill", "#222")
+	.attr("font-size", "2")
+	.text(d => d.number);
+
+	var mcircle = field.append("g")
+		.attr("transform", _ => {
+			const angle = c / n * 2 * Math.PI - Math.PI / 2;
+			return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20})` 
+		})
+
+	mcircle.append("circle")
+		.attr("fill", "cyan")
+		.attr("class", "small-circle")
+		.attr("r", "2")
+		.attr("stroke", "currentColor")
+		.attr("stroke-width", .5)
+	
+	field.append("text")
+		.attr("transform", _ => {
+			const angle = c / n * 2 * Math.PI - Math.PI / 2;
+			return `translate(${Math.cos(angle) * 20}, ${Math.sin(angle) * 20 + .5})` 
+		})
+		.text("c")
+		.attr("font-size", "2")
 }
