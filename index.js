@@ -2,8 +2,11 @@ function update() {
 	validatePandQ()
 	if (!isNaN(document.getElementById("messagenumber").innerHTML)) {
 		msgToNumber()
+		drawCircle()
+		drawSelect()
 		postMessageDoMath()
 		drawCircleWithCyphertext()
+		//calculateD()
 	}
 }
 
@@ -48,7 +51,7 @@ function drawCircle() {
 	  }
 	  if (!list.includes(n)) {
 	  	list.push({number: n, max: d.maxValue})
-	  	console.log(n)
+	  	//console.log(n)
 	  }
 	  return list
 	})
@@ -88,9 +91,7 @@ function validatePandQ() {
 	document.getElementById("nresult").innerHTML = n
 
 	if (math.isPrime(p) && math.isPrime(q)) {
-		drawCircle()
-		drawSelect()
-		console.log("Primes")
+		//console.log("Primes")
 
 	} //else {drawError()}
 }
@@ -101,7 +102,7 @@ function drawSelect() {
 	var n = p * q
 
 	var phipq = (p-1)*(q-1)
-	console.log(phipq)
+	//console.log(phipq)
 	var relPrimeOptions = []
 
 	for(var i = 2; i < 100; i++) {
@@ -109,13 +110,11 @@ function drawSelect() {
 			relPrimeOptions.push(i)
 		}
 	}
-	console.log(relPrimeOptions)
+	//console.log(relPrimeOptions)
 
 	d3.selectAll("#selectarea > *").remove()
 
-	var sel = d3.select("#selectarea").append("select")
-		.attr("name", "e options")
-		.attr("id", "select")
+	var sel = d3.select("#eselect")
 
 	sel.selectAll("option")
 		.data(relPrimeOptions)
@@ -128,18 +127,18 @@ function drawSelect() {
 function msgToNumber() {
 	var msg = document.getElementById("messagebox").value
 	var n = parseInt(document.getElementById("nresult").innerHTML)
-	console.log(n)
+	//console.log(n)
 	if (isNaN(n)) {
 		document.getElementById("messagenumber").innerHTML = "you need to finish the first step!"
 		return
 	}
-	console.log(msg)
+	//console.log(msg)
 	var number = 0
 	for (var i = 0; i < msg.length; i++){
 		number += msg.charCodeAt(i)
 	}
 	number = number % n
-	console.log(number);
+	//console.log(number);
 	document.getElementById("messagenumber").innerHTML = number
 	drawCircleWithMessage()
 }
@@ -186,7 +185,7 @@ function drawCircleWithMessage() {
 	  }
 	  if (!list.includes(n)) {
 	  	list.push({number: n, max: d.maxValue})
-	  	console.log(n)
+	  	//console.log(n)
 	  }
 	  return list
 	})
@@ -239,7 +238,7 @@ function postMessageDoMath() {
 	c = Math.pow(m, e) % n
 
 	if (isNaN(n) || isNaN(m) || isNaN(e)) {
-		console.log("nan error")
+		//console.log("nan error")
 		return
 	}
 	document.getElementById("n_is").innerHTML = `n = ${n}`
@@ -249,6 +248,7 @@ function postMessageDoMath() {
 }
 
 function drawCircleWithCyphertext() {
+
 	width = 50
 	height = 100
 	radius = width / 1.67
@@ -257,7 +257,13 @@ function drawCircleWithCyphertext() {
 	n = p * q
 	fields = [{maxValue: n, interval: n/12>>0}]
 	m = document.getElementById("messagenumber").innerHTML
+	select = document.getElementById("select")
+	if (select == null) {
+		return
+	}
+	e = select.options[select.selectedIndex].value
 	c = Math.pow(m, e) % n
+
 
 	d3.selectAll("#pubkeywheel3 > *").remove()
 
@@ -291,7 +297,7 @@ function drawCircleWithCyphertext() {
 	  }
 	  if (!list.includes(n)) {
 	  	list.push({number: n, max: d.maxValue})
-	  	console.log(n)
+	  	//console.log(n)
 	  }
 	  return list
 	})
@@ -329,9 +335,48 @@ function drawCircleWithCyphertext() {
 		.text("c")
 		.attr("font-size", "2")
 }
-
-function modinv(a, m) {
-	var v = 1
-	var d = a
-	var u = (a == 1)
+//Code derived from https://math.stackexchange.com/questions/67171/calculating-the-modular-multiplicative-inverse-without-all-those-strange-looking
+function modinv(a,m) {
+    var v = 1;
+    var d = a;
+    var u = (a == 1);
+    var t = 1-u;
+    if (t == 1) {
+        var c = m % a;
+        u = Math.floor(m/a);
+        while (c != 1 && t == 1) {
+               var q = Math.floor(d/c);
+               d = d % c;
+               v = v + q*u;
+               t = (d != 1);
+               if (t == 1) {
+                   q = Math.floor(c/d);
+                   c = c % d;
+                   u = u + q*v;
+               }
+        }
+        u = v*(1 - t) + t*(m - u);
+    }
+    return u;
 }
+
+function calculateD() {
+	p = document.getElementById("pinput").value
+	q = document.getElementById("qinput").value
+	n = p * q
+	console.log(`n is ${n}`)
+	m = document.getElementById("messagenumber").innerHTML
+	c = Math.pow(m, e) % n
+
+	console.log(`c is ${c}`)
+
+	d = modinv(e, n)
+	console.log(`d is ${d}`)
+
+	newm = Math.pow(c, d) % n
+	console.log(`m is ${newm}`)
+
+}
+
+
+

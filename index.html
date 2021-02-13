@@ -48,7 +48,9 @@
     <p>
     	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some kind of explanation.] It is usually quite large, but in some cases can be as low as 3.
     </p>
-    <div id='selectarea'></div>
+    <div id='selectarea'>
+      <select name="eselector" id="eselect" onchange=""/>
+    </div>
     <p>
     	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
     </p>
@@ -80,6 +82,7 @@
     </p>
     <p id="d_is"></p>
     ![show the (maybe animated) message moving around the circle, back to the place of the original message].
+    <div id="pubkeywheel4"></div>
   </div>
   <div></div>
   <script>
