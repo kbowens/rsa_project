@@ -347,6 +347,8 @@ function drawCircleWithCyphertext() {
 		})
 		.text("c")
 		.attr("font-size", "2")
+
+		calculateD()
 }
 //Code derived from https://math.stackexchange.com/questions/67171/calculating-the-modular-multiplicative-inverse-without-all-those-strange-looking
 function modinv(a,m) {
@@ -381,13 +383,17 @@ function calculateD() {
 	m = document.getElementById("messagenumber").innerHTML
 	c = Math.pow(m, e) % n
 
-	console.log(`c is ${c}`)
+	originalMessage = document.getElementById("messagebox").value
 
 	d = modinv(e, n)
 	console.log(`d is ${d}`)
 
 	newm = Math.pow(c, d) % n
 	console.log(`m is ${newm}`)
+
+	document.getElementById("d_is").innerHTML = `d is ${d}`
+	document.getElementById("final_m_is").innerHTML = `Translated message number: ${m}`
+	document.getElementById("final_m_translated").innerHTML = `Translated message: ${originalMessage}`
 
 }
 
