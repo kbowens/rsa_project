@@ -31,11 +31,11 @@
     <div id="inputs">
       <div>
         <label for="p">p:</label>
-        <input type="number" name="p" id="pinput" oninput="update()">
+        <input type="number" name="p" id="pinput" oninput="validatePandQ()">
       </div>
       <div>
         <label for="q">q:</label>
-        <input type="number" name="q" id="qinput" oninput="update()">
+        <input type="number" name="q" id="qinput" oninput="validatePandQ()">
       </div>
       <div>
         <label>Result:</label>
@@ -43,13 +43,12 @@
       </div>
     </div>
     <div id="pubkeywheel"></div>
-
-    [explain modulo with clock example somewhere here.]
     <p>
     	The second part of the public key is a number, 'e', which has to be relatively prime to phi(pq) [This is gonna need some kind of explanation.] It is usually quite large, but in some cases can be as low as 3.
     </p>
     <div id='selectarea'>
-      <select name="eselector" id="eselect" onchange=""/>
+      <label for="eselector">Select an 'e'</label>
+      <select name="eselector" id="eselect"></select>
     </div>
     <p>
     	Now we are done with the public key. With this knowledge, the any sender can send a message that only the intended person can read. Here's how:
@@ -58,19 +57,17 @@
     	The sender must convert a message into a number. Try a simple message here, [convert to unicode or something]. We will call this number 'm'.
     </p>
     <div id='messageboxdiv'>
-      <input id="messagebox" onchange='update()'/>
-      <text id='messagenumber'></text>
+      <input id="messagebox" onchange='msgToNumber()'/>
+      <text id="messagenumber"></text>
     </div>
     <div id="pubkeywheel2"></div>
     <p>
       Here's where the public key comes in: the cyphertext (encrypted message) is the result of m^e (mod n). In other words, m to the power of e, reduced modulo n. This number, 'c', is what we then send to the receiver.
     </p>
-    ![show cyphertext on the circle and maybe an animation from where it started]
     <div id="mathsection">
       <p id="m_is"></p>
       <p id="e_is"></p>
       <p id="n_is"></p>
-      <br/>
       <p id="equation"></p>
     </div>
     <div id="pubkeywheel3"></div>
@@ -81,12 +78,16 @@
       Now that the receiver has c, the encrypted message, they can decrypt. For this step, the receiver must generate the private key, which we will call 'd'. d has a special relationship to e: it is the modular inverse of e (mod phi n). The nature of this relationship is a bit out of scope for this explanation, but the important thing to know is that in order to get this number, you will need to know phi(n) [Aside: phi(n), or Euler's totient function, is the number of integers between 1 and n whose only common denominator is 1.] Phi(n) is hard to calculate - one basically has to test every number <em>unless</em> one knows p and q, the two numbers used to generate n. Since the receiver <em>does</em> know p and q, all they have to do is (p-1)(q-1). Once d is found, one last calculation is needed: c^d mod n. By the magic of d's special relationship to e, this calculation yields the decrypted message unaltered. 
     </p>
     <p id="d_is"></p>
+    <div id="mathsection2">
+      <p id="d_is"></p>
+      <p id="final_m_is"></p>
+    </div>
     ![show the (maybe animated) message moving around the circle, back to the place of the original message].
     <div id="pubkeywheel4"></div>
   </div>
   <div></div>
   <script>
-    update()
+    //update()
 
   </script>
 </body>

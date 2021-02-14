@@ -1,3 +1,4 @@
+/*
 function update() {
 	validatePandQ()
 	if (!isNaN(document.getElementById("messagenumber").innerHTML)) {
@@ -8,7 +9,7 @@ function update() {
 		drawCircleWithCyphertext()
 		//calculateD()
 	}
-}
+}*/
 
 
 function drawCircle() {
@@ -69,6 +70,10 @@ function drawCircle() {
 	.text(d => d.number);
 }
 
+function undrawCircle() {
+	d3.selectAll("#pubkeywheel > *").remove()
+}
+
 function drawError() {
 
 	const svg = d3.select("#pubkeywheel").remove().append("svg")
@@ -88,12 +93,17 @@ function validatePandQ() {
 	//console.log(p)
 	var n = p*q
 	//console.log(n)
-	document.getElementById("nresult").innerHTML = n
 
 	if (math.isPrime(p) && math.isPrime(q)) {
 		//console.log("Primes")
+		document.getElementById("nresult").innerHTML = n
+		drawCircle()
+		drawSelect()
 
-	} //else {drawError()}
+	} else {
+		document.getElementById("nresult").innerHTML = "p and q must be prime!"
+		undrawCircle()
+	}
 }
 
 function drawSelect() {
@@ -111,8 +121,6 @@ function drawSelect() {
 		}
 	}
 	//console.log(relPrimeOptions)
-
-	d3.selectAll("#selectarea > *").remove()
 
 	var sel = d3.select("#eselect")
 
@@ -222,6 +230,8 @@ function drawCircleWithMessage() {
 		})
 		.text("m")
 		.attr("font-size", "2")
+
+		postMessageDoMath()
 }
 
 function postMessageDoMath() {
@@ -229,7 +239,7 @@ function postMessageDoMath() {
 	q = document.getElementById("qinput").value
 	n = p * q
 	m = document.getElementById("messagenumber").innerHTML
-	select = document.getElementById("select")
+	select = document.getElementById("eselect")
 	if (select == null) {
 		return
 	}
@@ -244,11 +254,12 @@ function postMessageDoMath() {
 	document.getElementById("n_is").innerHTML = `n = ${n}`
 	document.getElementById("m_is").innerHTML = `m = ${m}`
 	document.getElementById("e_is").innerHTML = `e = ${e}`
-	document.getElementById("equation").innerHTML = `(${m}^${e}) mod ${n} = ${c}`
+	document.getElementById("equation").innerHTML = `c = (${m}^${e}) mod ${n} = ${c}`
+	drawCircleWithCyphertext()
 }
 
 function drawCircleWithCyphertext() {
-
+	console.log("hi")
 	width = 50
 	height = 100
 	radius = width / 1.67
@@ -257,12 +268,14 @@ function drawCircleWithCyphertext() {
 	n = p * q
 	fields = [{maxValue: n, interval: n/12>>0}]
 	m = document.getElementById("messagenumber").innerHTML
-	select = document.getElementById("select")
+	select = document.getElementById("eselect")
 	if (select == null) {
 		return
 	}
+	console.log("didn't return")
 	e = select.options[select.selectedIndex].value
 	c = Math.pow(m, e) % n
+	console.log(e)
 
 
 	d3.selectAll("#pubkeywheel3 > *").remove()
